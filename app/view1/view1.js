@@ -10,12 +10,5 @@ angular.module('ng-components.view1', ['ngRoute'])
     }])
 
     .controller('View1Ctrl', ['$scope', function ($scope) {
-        $scope.tabs = [
-            'tab1',
-            'tab2',
-            'tab3',
-            'tab4'
-        ];
-
-        $scope.tab = 2;
+        $scope.value = 45;
     }]);

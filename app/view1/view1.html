@@ -1,11 +1,5 @@
-<h1>Timeline</h1>
+<h1>Knob</h1>
 
-{{ tab }}
+<knob ng-model="value" min="0" max="360">
 
-<input type="text" ng-model="tab" />
-
-<tabs ng-model="tab" tabs="tabs" />
-
-<p ng-repeat="(index, n) in [1,2,3,4,5,6,7,8]" ng-if="tab == index">
-    Tab {{ index }} Content
-</p>
+</knob>
