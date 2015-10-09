@@ -6,7 +6,8 @@ angular.module('ng-components', [
     'ng-components.view1',
     'ng-components.view2',
     'ng-components.version',
-    'ng-components.templates'
+    'ng-components.templates',
+    'ng-components.table'
 ]).
 config(['$routeProvider', function($routeProvider) {
     $routeProvider.otherwise({redirectTo: '/view1'});

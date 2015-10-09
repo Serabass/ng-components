@@ -6,3 +6,6 @@ tmp
 .DS_Store
 .idea
 typings
+app/app.compiled.js
+app/app.compiled.js.map
+app/app.templates.js

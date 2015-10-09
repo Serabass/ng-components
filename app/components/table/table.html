@@ -1,0 +1,46 @@
+<style>
+    table.s-table td {
+        padding: 5px;
+    }
+</style>
+
+<table class="s-table" border="1">
+    <thead ng-if="options.head">
+        <tr>
+            <td ng-if="options.indices">
+                #
+            </td>
+
+            <td ng-repeat="(index, key) in options.headers">
+                {{ key }}
+            </td>
+
+            <td ng-if="options.edit">
+                Edit
+            </td>
+
+            <td ng-if="options.remove">
+                Remove
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="(rowIndex, row) in data">
+            <td ng-if="options.indices">
+                {{ rowIndex }}
+            </td>
+
+            <td ng-repeat="(index, key) in options.headers" ng-init="cell = row[key]" ng-click="onCellClick(cell, index, row, rowIndex)">
+                {{ handleValue(cell, index, row, rowIndex) }}
+            </td>
+
+            <td ng-if="options.edit">
+                <a href="#">Edit</a>
+            </td>
+
+            <td ng-if="options.remove">
+                <a href="#">Remove</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,3 +1,8 @@
-<div>
-    Date: {{ date }}
-</div>
+
+<table class="ng-calendar" border="1">
+    <tr ng-repeat="row in rows">
+        <td ng-repeat="cell in row">
+            {{ cell | date : 'dd'}}
+        </td>
+    </tr>
+</table>
