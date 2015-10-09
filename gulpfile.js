@@ -18,7 +18,7 @@ var config = {
     }
 };
 
-gulp.task('default', ['tpl', 'ts']);
+gulp.task('default', ['tpl', 'ts', 'styles']);
 
 function makeTypescriptSources(sources) {
     return sources.map(function (item) {
@@ -48,4 +48,13 @@ gulp.task("tpl", function () {
             root: "app"
         }))
         .pipe(gulp.dest('app/'));
+});
+
+gulp.task("styles", function () {
+    return gulp.src(['app/components/**/*.scss'])
+        .pipe(plugins.sass({ onError: function (e) { console.log(e); } }))
+        // Optionally add autoprefixer
+        .pipe(plugins.autoprefixer("last 2 versions", "> 1%", "ie 8"))
+        .pipe(plugins.concat("components.css"))
+        .pipe(gulp.dest('app/styles'));
 });

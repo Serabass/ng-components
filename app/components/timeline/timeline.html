@@ -1,0 +1,17 @@
+<div class="s-timeline">
+    <div class="wrapper">
+        <div
+                class="second"
+                ng-repeat="(index, second) in seconds"
+                title="{{ second | secondsToDateTime | date:'HH:mm:ss' }}"
+                ng-class="{active: time === second}"
+                ng-click="$parent.time = second">
+            <div class="label" ng-if="index % 5 === 0">
+                {{ second | secondsToDateTime | date:'HH:mm:ss' }}
+            </div>
+            <div class="label-hover">
+                {{ second | secondsToDateTime | date:'HH:mm:ss' }}
+            </div>
+        </div>
+    </div>
+</div>
