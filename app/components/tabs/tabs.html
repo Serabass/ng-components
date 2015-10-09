@@ -1,0 +1,8 @@
+<div class="tabs">
+    <div class="tab"
+         ng-repeat="(index, title) in tabs"
+         ng-click="$parent.tab = index"
+         ng-class="{ active: $parent.tab == index}">
+        {{ title }}
+    </div>
+</div>

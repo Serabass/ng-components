@@ -1,0 +1,16 @@
+.tabs {
+  .tab {
+    float: left;
+    width: 140px;
+    cursor: pointer;
+    text-align: center;
+
+    &:hover {
+      border-bottom: 1px solid black;
+    }
+
+    &.active {
+      border-bottom: 2px solid black;
+    }
+  }
+}
