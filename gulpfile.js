@@ -1,33 +1,25 @@
 var gulp = require('gulp'),
-    pluginsFactory = require("gulp-load-plugins"),
-    plugins = pluginsFactory()
+    plugins = require("gulp-load-plugins")()
 ;
 
 var config = {
-    app: {
-        src: [
-            'app/**/*.ts',
-            '!app/bower_components/**/*.ts'
-        ],
-        templates: [
-            'app/**/*.html'
-        ],
-        typings: [
-            'typings/tsd.d.ts'
-        ]
-    }
+    ts: [
+        'app/**/*.ts',
+        '!app/bower_components/**/*.ts',
+        'typings/tsd.d.ts'
+    ],
+    templates: [
+        'app/**/*.html'
+    ],
+    typings: [
+    ],
+    styles: ['app/components/**/*.scss']
 };
 
 gulp.task('default', ['tpl', 'ts', 'styles']);
 
-function makeTypescriptSources(sources) {
-    return sources.map(function (item) {
-        return item.replace(".js", ".ts");
-    });
-}
-
 gulp.task("ts", function () {
-    return gulp.src(makeTypescriptSources(config.app.src).concat(config.app.typings))
+    return gulp.src(config.ts)
         .pipe(plugins.tsc({
             "module": "umd",
             target: "ES5",
@@ -40,7 +32,7 @@ gulp.task("ts", function () {
 });
 
 gulp.task("tpl", function () {
-    return gulp.src(config.app.templates)
+    return gulp.src(config.templates)
         .pipe(plugins.angularTemplatecache({
             filename: "app.templates.js",
             module: "ng-components.templates",
@@ -50,11 +42,25 @@ gulp.task("tpl", function () {
         .pipe(gulp.dest('app/'));
 });
 
-gulp.task("styles", function () {
-    return gulp.src(['app/components/**/*.scss'])
-        .pipe(plugins.sass({ onError: function (e) { console.log(e); } }))
+gulp.task('styles', function () {
+    return gulp.src(config.styles)
+        .pipe(plugins.sass({ onError: function (e) { console.error(e); } }))
         // Optionally add autoprefixer
         .pipe(plugins.autoprefixer("last 2 versions", "> 1%", "ie 8"))
         .pipe(plugins.concat("components.css"))
         .pipe(gulp.dest('app/styles'));
+});
+
+gulp.task('watch', function (cb) {
+    gulp.watch(config.styles, ['styles'], function(){
+        gulp.run(['styles']);
+    });
+
+    gulp.watch(config.templates, ['tpl'], function(){
+        gulp.run(['tpl']);
+    });
+
+    gulp.watch(config.ts, ['ts'], function(){
+        gulp.run(['ts']);
+    });
 });

@@ -9,3 +9,4 @@ typings
 app/app.compiled.js
 app/app.compiled.js.map
 app/app.templates.js
+app/styles/components.css

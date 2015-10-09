@@ -1,20 +1,15 @@
-
 interface ISliderScope extends ng.IScope {
 
 }
 
-var app = angular.module('ng-components.slider', []);
+angular.module('ng-components.slider', [])
+    .directive('sSlider', () => new SSliderDirective);
 
-app.directive('sSlider', () => ({
-        restrict: 'E',
-        scope: {
+class SSliderDirective implements ng.IDirective {
+    public restrict = 'E';
+    public scope = {};
+    public templateUrl = 'app/components/slider/slider.html';
+    public controller = ['$scope', function ($scope:ISliderScope) {
 
-        },
-        templateUrl: 'app/components/slider/slider.html',
-        controller: ['$scope', SliderCtrl]
-    })
-);
-
-function SliderCtrl($scope:ISliderScope) {
-
+    }];
 }

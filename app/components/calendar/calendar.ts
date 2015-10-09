@@ -1,4 +1,3 @@
-
 interface ICalendarScope extends ng.IScope {
     date:Date;
     getDays():Date[];
@@ -7,22 +6,6 @@ interface ICalendarScope extends ng.IScope {
     year:number;
     month:number;
 }
-
-var app = angular.module('ng-components.calendar', []);
-
-app.directive('calendar', function () {
-    return {
-        restrict: 'E',
-        scope: {
-            date: '=',
-            month: '=',
-            year: '='
-        },
-        templateUrl: 'app/components/calendar/calendar.html',
-        controller: ['$scope', CalendarCtrl]
-    }
-});
-
 
 function daysInMonth(year:number, month:number) {
     switch (month) {
@@ -38,40 +21,52 @@ function daysInMonth(year:number, month:number) {
     }
 }
 
-function CalendarCtrl($scope:ICalendarScope) {
 
-    $scope.$watch('date', function () {
-        $scope.days = $scope.getDays();
-        $scope.rows = (function () {
-            var result:any[][] = [],
-                year = $scope.year,
-                month = $scope.month - 1,
+class CalendarDirective implements ng.IDirective {
+    public restrict = 'E';
+    public scope = {
+        date: '=',
+        month: '=',
+        year: '='
+    };
+    public templateUrl = 'app/components/calendar/calendar.html';
+    public controller = ['$scope', function ($scope:ICalendarScope) {
+
+        $scope.$watch('date', function () {
+            $scope.days = $scope.getDays();
+            $scope.rows = (function () {
+                var result:any[][] = [],
+                    year = $scope.year,
+                    month = $scope.month - 1,
+                    daysNum = daysInMonth(year, month)
+                    ;
+
+                var firstDay:Date = new Date(year, month, 1);
+
+
+                for (var i = 0; i < daysNum; i++) {
+                    result
+                }
+
+                return result;
+            }());
+        });
+
+        $scope.getDays = () => {
+            var result:Date[] = [],
+                year:number = $scope.date.getFullYear(),
+                month:number = $scope.date.getMonth(),
                 daysNum = daysInMonth(year, month)
-            ;
+                ;
 
-            var firstDay:Date = new Date(year, month, 1);
-
-
-
-            for (var i = 0; i < daysNum; i++) {
-                result
+            for (var i = 1; i <= daysNum; i++) {
+                result.push(new Date(year, month, i));
             }
 
             return result;
-        }());
-    });
-
-    $scope.getDays = () => {
-        var result:Date[] = [],
-            year:number = $scope.date.getFullYear(),
-            month:number = $scope.date.getMonth(),
-            daysNum = daysInMonth(year, month)
-        ;
-
-        for (var i = 1; i <= daysNum; i++) {
-            result.push(new Date(year, month, i));
-        }
-
-        return result;
-    };
+        };
+    }];
 }
+
+
+angular.module('ng-components.calendar', []).directive('calendar', () => new CalendarDirective());
