@@ -10,7 +10,7 @@ angular.module('ng-components').service('buildPattern', function () {
         result = str
             .replace(/#+/g, '(\\d+)')
             .replace(/\s+/g, options.spacesRequired ? '\\s+' : '\\s*')
-            .replace(/\[/g, '(?:')
+            .replace(/\[/g, '(')
             .replace(/\]/g, ')?')
         ;
 
