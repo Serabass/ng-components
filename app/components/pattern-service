@@ -1,5 +1,4 @@
-
-app.service('build', function () {
+angular.module('ng-components').service('buildPattern', function () {
     return function (str:string, options:any = {}) {
         var defaults:any = {
             spacesRequired: true,
