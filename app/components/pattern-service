@@ -1,14 +1,26 @@
 angular.module('ng-components').service('buildPattern', function () {
     return function (str:string, options:any = {}) {
         var defaults:any = {
-            spacesRequired: true,
-            strict: true
-        };
-        var result:string;
+                spacesRequired: true,
+                strict: true
+            },
+            result:string,
+            keys = (() => {
+                var matches = str
+                    .match(/#(?:<(\w+)>)?/g)
+                    .map((e) => /#(?:<(\w+)>)?/g.exec(e)[1])
+                    .map((e, index) => e === void 0 ? index : e.toString())
+                ;
+
+                debugger;
+            })(),
+            resultRegExp:RegExp
+        ;
+
         angular.extend(options, defaults);
 
         result = str
-            .replace(/#+/g, '(\\d+)')
+            .replace(/\w+/g, '(\\d+)')
             .replace(/\s+/g, options.spacesRequired ? '\\s+' : '\\s*')
             .replace(/\[/g, '(')
             .replace(/\]/g, ')?')
@@ -18,6 +30,16 @@ angular.module('ng-components').service('buildPattern', function () {
             result = `^${result}$`
         }
 
-        return new RegExp(result);
+        resultRegExp = new RegExp(result);
+
+        return {
+            regexp: resultRegExp,
+            data: (() => {
+                keys;
+                result;
+                resultRegExp;
+                debugger;
+            })()
+        };
     }
 });
