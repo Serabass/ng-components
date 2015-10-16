@@ -45,3 +45,73 @@ angular.module('ng-components').service('buildPattern', function () {
         };
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////// UPDATE
+
+
+
+
+class TPL {
+    public regExp:RegExp;
+    public keys:string[];
+
+    constructor(private str:string, private options:any = {}) {
+        var defaults:any = {
+                spacesRequired: true,
+                strict: true
+            },
+            result:string,
+            keys:string[] = (() => {
+                return str
+                        .match(/#(?:<(\w+)>)?/g)
+                        .map((e) => /#(?:<(\w+)>)?/g.exec(e)[1])
+                        .map((e, index) => e === void 0 ? index.toString() : e.toString())
+                    ;
+            })();
+
+        angular.extend(options, defaults);
+
+        result = str
+            .replace(/#(?:<(\w+)>)?/g, '(\\w+)')
+            .replace(/\s+/g, options.spacesRequired ? '\\s+' : '\\s*')
+            .replace(/\[/g, '(?:')
+            .replace(/\]/g, ')?')
+        ;
+
+        if (options.strict) {
+            result = `^${result}$`
+        }
+
+        this.regExp = new RegExp(result);
+        this.keys = keys;
+    }
+
+    parse(str:string) {
+        var matches:string[] = str.match(this.regExp),
+            result:any = {};
+        matches.shift();
+
+        var index:number = 0;
+
+        for (var key of this.keys) {
+            result[key] = matches[index];
+            index++;
+        }
+
+        return result;
+    };
+}
