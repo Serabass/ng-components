@@ -1,0 +1,24 @@
+
+app.service('build', function () {
+    return function (str:string, options:any = {}) {
+        var defaults:any = {
+            spacesRequired: true,
+            strict: true
+        };
+        var result:string;
+        angular.extend(options, defaults);
+
+        result = str
+            .replace(/#+/g, '(\\d+)')
+            .replace(/\s+/g, options.spacesRequired ? '\\s+' : '\\s*')
+            .replace(/\[/g, '(?:')
+            .replace(/\]/g, ')?')
+        ;
+
+        if (options.strict) {
+            result = `^${result}$`
+        }
+
+        return new RegExp(result);
+    }
+});
